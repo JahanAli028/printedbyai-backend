@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Printful Product Tester</title>
+  <style>
+    body { font-family: Arial; padding: 2rem; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+    input { width: 200px; }
+    pre { background: #f0f0f0; padding: 1rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Printful Product Options Test</h1>
+  <p>Enter Printful Product ID (e.g. <strong>4012</strong> for Bella+Canvas):</p>
+
+  <input id="pid" placeholder="Enter Product ID" value="4012" />
+  <button onclick="fetchOptions()">Fetch</button>
+
+  <pre id="result">Awaiting result...</pre>
+
+  <script>
+    async function fetchOptions() {
+      const pid = document.getElementById('pid').value;
+      const res = await fetch(`/api/printful-options/${pid}`);
+      const data = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
