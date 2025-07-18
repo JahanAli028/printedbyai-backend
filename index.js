@@ -1,16 +1,15 @@
 const express = require("express");
-const app = express(); // ✅ This is the missing line
 const cors = require("cors");
-const stripe = require("stripe")("your-secret-key"); // Replace with your actual key
+const stripe = require("stripe")("sk_test_..."); // replace with your actual key
+
+const app = express(); // ← THIS must be here before using app.get or app.post
 
 app.use(cors());
 app.use(express.json());
 
-
 app.get("/", (req, res) => {
   res.send("PrintedByAI backend is running");
 });
-
 
 app.post("/api/checkout-session", async (req, res) => {
   try {
@@ -23,7 +22,7 @@ app.post("/api/checkout-session", async (req, res) => {
         {
           price_data: {
             currency: "usd",
-            unit_amount: 1999, // $19.99
+            unit_amount: 1999,
             product_data: {
               name: `${product} - ${color} - ${size}`,
               description: prompt,
@@ -43,3 +42,6 @@ app.post("/api/checkout-session", async (req, res) => {
     res.status(500).json({ error: "Stripe checkout failed" });
   }
 });
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
