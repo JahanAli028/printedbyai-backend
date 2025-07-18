@@ -1,3 +1,12 @@
+const express = require("express");
+const app = express(); // ✅ This is the missing line
+const cors = require("cors");
+const stripe = require("stripe")("your-secret-key"); // Replace with your actual key
+
+app.use(cors());
+app.use(express.json());
+
+
 app.get("/", (req, res) => {
   res.send("PrintedByAI backend is running");
 });
